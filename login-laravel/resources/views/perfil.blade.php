@@ -116,7 +116,6 @@
         <div class="profile-container">
             <h3>Mi Perfil</h3>
             
-            <!-- Vista de Información -->
             <div id="perfil-view">
                 <div class="info-row">
                     <label>Nombres:</label>
@@ -137,7 +136,6 @@
                 <button type="button" class="btn-toggle" id="btn-edit-mode">Editar Perfil</button>
             </div>
 
-            <!-- Formulario de Edición -->
             <form id="form-perfil" class="hidden">
                 <input type="hidden" id="user-id">
                 <div class="form-group">

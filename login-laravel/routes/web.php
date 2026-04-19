@@ -9,7 +9,6 @@ Route::view('/restablecer', 'restablecer');
 Route::get('/home', function () {return view('home');});
 Route::get('/perfil', function () {return view('perfil');});
 
-// Rutas de la API (en web.php para tener soporte de sesiones automático)
 Route::prefix('api')->group(function () {
     Route::get('/usuarios', [UsuarioController::class, 'listar']);
     Route::get('/usuarios/{id}', [UsuarioController::class, 'obtenerPorId']);
@@ -22,6 +21,5 @@ Route::prefix('api')->group(function () {
     Route::post('/cerrar_sesion', [UsuarioController::class, 'cerrar_sesion']);
 });
 
-// Rutas de Google Login
 Route::get('/auth/google', [UsuarioController::class, 'redirectToGoogle']);
 Route::get('/auth/google/callback', [UsuarioController::class, 'handleGoogleCallback']);

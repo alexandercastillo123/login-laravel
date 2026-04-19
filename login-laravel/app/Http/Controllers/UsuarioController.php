@@ -46,7 +46,6 @@ class UsuarioController extends Controller
 
         if (!empty($resultado)) {
             $usuario = $resultado[0];
-            // Guardar en sesión de Laravel
             session(['usuario' => $usuario]);
             
             return response()->json(['res' => true, 'usuario' => $usuario]);
@@ -67,7 +66,6 @@ class UsuarioController extends Controller
             return response()->json(['msg' => 'No autorizado'], 401);
         }
 
-        // Determinar el ID correcto (id o idUsuario según lo que tenga la sesión)
         $id = null;
         if (is_object($usuario)) {
             $id = $usuario->id ?? $usuario->idUsuario ?? null;
@@ -79,12 +77,11 @@ class UsuarioController extends Controller
             return response()->json(['msg' => 'ID de sesión no encontrado'], 401);
         }
 
-        // Consultar datos usando el procedimiento original del usuario
         $datos = DB::select('CALL sp_ObtenerUsuario(?)', [$id]);
         
         if (!empty($datos)) {
             $resultado = (array)$datos[0];
-            $resultado['id'] = $id; // Aseguramos que el ID vaya en el JSON
+            $resultado['id'] = $id;
             return response()->json($resultado);
         }
         return response()->json(['msg' => 'Usuario no encontrado'], 404);
@@ -102,7 +99,6 @@ class UsuarioController extends Controller
     public function actualizar(Request $request, $id)
     {
         try {
-            // Si el ID llega vacío o 'undefined', usamos el de la sesión
             $usuarioSession = session('usuario');
             $idSesion = isset($usuarioSession->id) ? $usuarioSession->id : ($usuarioSession->idUsuario ?? null);
             
@@ -112,7 +108,6 @@ class UsuarioController extends Controller
                 return response()->json(['res' => false, 'msg' => 'ID de usuario no identificado.']);
             }
 
-            // Buscamos el usuario en la tabla directamente para obtener su password actual si no se envía uno nuevo
             $usuarioActual = DB::table('usuarios')->where('id', $idActualizar)->first();
             if (!$usuarioActual) {
                 return response()->json(['res' => false, 'msg' => 'Usuario no encontrado en la base de datos (ID: '.$idActualizar.')']);
@@ -145,8 +140,6 @@ class UsuarioController extends Controller
             try {
                 Mail::to($request->email)->send(new RecuperacionMail($request->codigo));
             } catch (\Exception $e) {
-                // Si falla el envío, de todas formas el código se generó en la DB
-                // pero informamos del error de envío si es necesario para depuración
                 return response()->json(['resultado' => 1, 'email_error' => $e->getMessage()]);
             }
         }
@@ -171,7 +164,6 @@ class UsuarioController extends Controller
         return response()->json(['res' => true,'msg' => 'Sesión cerrada']);
     }
 
-    // Google Login Logic
     public function redirectToGoogle()
     {
         return Socialite::driver('google')->redirect();
@@ -182,21 +174,18 @@ class UsuarioController extends Controller
         try {
             $googleUser = Socialite::driver('google')->user();
 
-            // Buscar usuario por google_id o email
             $usuario = DB::table('usuarios')
                 ->where('google_id', $googleUser->id)
                 ->orWhere('email', $googleUser->email)
                 ->first();
 
             if ($usuario) {
-                // Si existe pero no tiene google_id, lo actualizamos
                 if (!$usuario->google_id) {
                     DB::table('usuarios')
                         ->where('id', $usuario->id)
                         ->update(['google_id' => $googleUser->id]);
                 }
             } else {
-                // Crear nuevo usuario
                 $partesNombre = explode(' ', $googleUser->name, 2);
                 $nombres = $partesNombre[0];
                 $apellidos = $partesNombre[1] ?? ' ';
@@ -213,7 +202,6 @@ class UsuarioController extends Controller
                 $usuario = DB::table('usuarios')->where('id', $idNuevo)->first();
             }
 
-            // Iniciar sesión (Guardar en sesión de Laravel)
             session(['usuario' => $usuario]);
 
             return redirect('/home');

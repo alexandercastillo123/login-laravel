@@ -38,7 +38,6 @@
             e.preventDefault();
 
             const email = document.getElementById('rec-email').value;
-            // Generamos el código de 6 dígitos
             const codigoAleatorio = Math.floor(100000 + Math.random() * 900000);
 
             try {

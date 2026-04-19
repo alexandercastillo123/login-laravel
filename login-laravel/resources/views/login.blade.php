@@ -146,7 +146,7 @@
             const data = await res.json();
             if(data.res) {
                 alert(data.msg);
-                e.target.reset(); // Limpiar formulario
+                e.target.reset();
                 wrapper.classList.remove('active');
             } else {
                 alert(data.msg || 'Error al registrar');
