@@ -40,6 +40,14 @@
                     <a href="{{ url('/recuperar') }}">Forgot Password?</a>
                 </div>
                 <button type="submit" class="btn">Login</button>
+
+                <div class="google-login" style="margin-top: 15px; text-align: center;">
+                    <a href="{{ url('/auth/google') }}" class="btn-google" style="display: flex; align-items: center; justify-content: center; background: white; color: #444; border: 1px solid #ddd; padding: 10px; border-radius: 6px; text-decoration: none; font-weight: 500; transition: .3s; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google" style="width: 20px; margin-right: 10px;">
+                        Iniciar sesión con Google
+                    </a>
+                </div>
+
                 <div class="login-register">
                     <p>Don't have an account? <a href="#" class="register-link">Register</a></p>
                 </div>
@@ -138,9 +146,10 @@
             const data = await res.json();
             if(data.res) {
                 alert(data.msg);
-                wrapper.classList.remove('active'); // Te regresa al login
+                e.target.reset(); // Limpiar formulario
+                wrapper.classList.remove('active');
             } else {
-                alert('Error al registrar');
+                alert(data.msg || 'Error al registrar');
             }
         });
     </script>

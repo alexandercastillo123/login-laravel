@@ -57,11 +57,7 @@
                 const data = await res.json();
 
                 if(data.resultado == 1) {
-                    alert(
-                        "   CÓDIGO: " + codigoAleatorio + "\n" +
-                        "Codigo de verificacion"
-                    );
-
+                    alert('Código enviado. Por favor, revisa tu correo electrónico (incluyendo la carpeta de spam).');
                     window.location.href = "{{ url('/restablecer') }}?email=" + encodeURIComponent(email);
                 } else {
                     alert('Error: El correo ingresado no existe.');

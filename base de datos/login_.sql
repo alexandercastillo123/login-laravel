@@ -7,9 +7,10 @@ CREATE TABLE usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombres CHAR(50) NOT NULL,
     apellidos CHAR(50) NOT NULL,
-    dni INT UNIQUE NOT NULL,
+    dni INT UNIQUE NULL,
     email CHAR(50) UNIQUE NOT NULL,
-    pass CHAR(25) NOT NULL,
+    pass CHAR(25) NULL,
+    google_id CHAR(100) UNIQUE NULL,
     codigo_recuperacion CHAR(10) NULL,
     fecha_expiracion DATETIME NULL
 );
@@ -62,7 +63,7 @@ END //
 
 CREATE PROCEDURE sp_ObtenerUsuario (IN _id INT)
 BEGIN
-    SELECT nombres, apellidos, dni, email, pass FROM usuarios WHERE id = _id;
+    SELECT id, nombres, apellidos, dni, email, pass FROM usuarios WHERE id = _id;
 END //
 
 CREATE PROCEDURE sp_ListarUsuarios()

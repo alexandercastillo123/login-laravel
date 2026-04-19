@@ -48,14 +48,12 @@ async function cargarUsuarios() {
 }
 
 async function cerrarSesion() {
-    const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
     const redirectUrl = document.getElementById('url-base').value;
 
     try {
         await fetch('/api/cerrar_sesion', {
             method: 'POST',
             headers: {
-                'X-CSRF-TOKEN': csrfToken,
                 'Content-Type': 'application/json'
             }
         });

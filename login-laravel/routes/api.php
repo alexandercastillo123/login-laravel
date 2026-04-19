@@ -11,4 +11,5 @@ Route::post('/login', [UsuarioController::class, 'login']);
 Route::put('/actualizar/{id}', [UsuarioController::class, 'actualizar']);
 Route::post('/recuperar-codigo', [UsuarioController::class, 'generarCodigo']);
 Route::post('/restablecer-pass', [UsuarioController::class, 'restablecer']);
+Route::get('/perfil', [UsuarioController::class, 'obtenerPerfil']);
 Route::post('/cerrar_sesion', [UsuarioController::class, 'cerrar_sesion']);

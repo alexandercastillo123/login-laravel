@@ -17,7 +17,7 @@
         <nav class="navigation">
             <a href="#">Home</a>
             <a href="#">Usuarios</a>
-            <a href="perfil">Perfil</a>
+            <a href="perfil" onclick="window.location.href = '/perfil'">Perfil</a>
             <button class="btn-logout" id="btn-logout">Cerrar Sesión</button>
         </nav>
     </header>
